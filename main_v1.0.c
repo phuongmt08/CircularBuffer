@@ -37,6 +37,32 @@
 /* Private variables -------------------------------------------------- */
 /* Private function prototypes ---------------------------------------- */
 /* Function definitions ----------------------------------------------- */
+uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
+{
+  // Kiểm tra thông số đầu vào hợp lệ
+  if (cb == NULL || buf == NULL || nbytes == 0 || cb->active == false)
+    return 0;
 
+  // Ép kiểu con trỏ buf và khởi tạo biến đếm 
+  uint8_t *data = (uint8_t *)buf;
+  uint32_t bytes_written = 0;
+
+  // Ghi cho đến hết dữ liệu hoặc buffer đầy
+  while ((bytes_written < nbytes) && (cb_space_count(cb) > 0))
+  {
+    // Ghi 1 byte dữ liệu; tăng biến đếm writter và biến đếm byte đã ghi
+    cb->data[cb->writer] = data[bytes_written];
+    cb->writer = (cb->writer + 1) % cb->size;
+    bytes_written++;
+  }
+  
+  // Nếu ghi chưa đủ thì có tràn
+  if (bytes_written < nbytes)
+  {
+    cb->overflow += nbytes - bytes_written; 
+  }
+  
+  return bytes_written;
+}
 /* Private definitions ----------------------------------------------- */
 /* End of file -------------------------------------------------------- */

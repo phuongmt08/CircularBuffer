@@ -98,7 +98,8 @@ uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
   
   return bytes_written;
 }
-uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes){
+uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes)
+{
     uint32_t cnt = 0;
   if(!cb->active)
   {
@@ -125,6 +126,20 @@ uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes){
     cnt++;
   }
 return cnt;
+}
+uint32_t cb_data_count(cbuffer_t *cb)
+{
+    if(cb->reader <= cb->writer)
+    {
+      return cb->writer - cb->reader;
+    } else {
+      return cb->size + cb->writer - cb->reader;
+    }
+}
+
+uint32_t cb_space_count(cbuffer_t *cb)
+{
+    return cb->size - cb_data_count(cb) -1;
 }
 /* Private definitions ----------------------------------------------- */
 /* End of file -------------------------------------------------------- */

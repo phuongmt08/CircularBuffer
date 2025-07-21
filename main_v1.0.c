@@ -59,16 +59,16 @@ void cb_clear(cbuffer_t *cb)
     return;
   }
   else 
+  {
+    if (cb == NULL)  // check if cb pointer valid 
     {
-      if (cb == NULL)  // check if cb pointer valid 
-        {
-          return;
-        }
-    
-      cb->writer = 0;
-      cb->reader = 0;
-      cb->overflow = 0;
-      }
+      return;
+    }
+
+    cb->writer = 0;
+    cb->reader = 0;
+    cb->overflow = 0;
+  }
 }
 
 uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
@@ -98,8 +98,9 @@ uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
   
   return bytes_written;
 }
+
 uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes){
-    uint32_t cnt = 0;
+  uint32_t cnt = 0;
   if(!cb->active)
   {
     printf("chua active\n");
@@ -116,7 +117,7 @@ uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes){
   {
     if (cb->reader == (cb->writer - 1))
     {
-        break;
+      break;
     } 
     // gan du lieu cho bufR
     bufR[cb->reader] = cb->data[cb->reader];   
@@ -124,7 +125,8 @@ uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes){
     cb->reader = (cb->reader + 1) % cb->size;     
     cnt++;
   }
-return cnt;
+
+  return cnt;
 }
 /* Private definitions ----------------------------------------------- */
 /* End of file -------------------------------------------------------- */

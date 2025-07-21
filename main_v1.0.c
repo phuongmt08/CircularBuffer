@@ -37,6 +37,19 @@
 /* Private variables -------------------------------------------------- */
 /* Private function prototypes ---------------------------------------- */
 /* Function definitions ----------------------------------------------- */
+uint32_t cb_data_count(cbuffer_t *cb)
+{
+    if(cb->reader <= cb->writer)
+    {
+      return cb->writer - cb->reader;
+    } else {
+      return cb->size + cb->writer - cb->reader;
+    }
+}
 
+uint32_t cb_space_count(cbuffer_t *cb)
+{
+    return cb->size - cb_data_count(cb) -1;
+}
 /* Private definitions ----------------------------------------------- */
 /* End of file -------------------------------------------------------- */

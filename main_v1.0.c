@@ -107,7 +107,7 @@ uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes){
     printf("chua active\n");
     return 0;
   }
-  if(nbytes == 0 || nbytes < CB_MAX_SIZE)
+  if(nbytes == 0 || nbytes > CB_MAX_SIZE)
   {
     printf("du lieu doc qua lon\n");
     return 0;
@@ -116,12 +116,12 @@ uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes){
   uint8_t *bufR = (uint8_t *)buf;
   while(cnt < nbytes)
   {
-    if (cb->reader == (cb->writer - 1))
+    if (cb->reader == cb->writer)
     {
       break;
     } 
     // gan du lieu cho bufR
-    bufR[cb->reader] = cb->data[cb->reader];   
+    bufR[cnt] = cb->data[cb->reader];   
     // tang reader va cnt        
     cb->reader = (cb->reader + 1) % cb->size;     
     cnt++;

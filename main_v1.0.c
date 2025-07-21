@@ -101,6 +101,7 @@ uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
 
 uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes){
   uint32_t cnt = 0;
+
   if(!cb->active)
   {
     printf("chua active\n");
@@ -128,6 +129,7 @@ uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes){
 
   return cnt;
 }
+
 uint32_t cb_data_count(cbuffer_t *cb)
 {
   if(cb->reader <= cb->writer)

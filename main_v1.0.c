@@ -37,6 +37,39 @@
 /* Private variables -------------------------------------------------- */
 /* Private function prototypes ---------------------------------------- */
 /* Function definitions ----------------------------------------------- */
+void cb_init(cbuffer_t *cb, void *buf, uint32_t size)
+{
+  if (cb == NULL || buf == NULL || size == 0 || size > CB_MAX_SIZE)
+    {
+      return;
+    }
+    
+  cb->data = (uint8_t *)buf;
+  cb->size = size;
+  cb->writer = 0;
+  cb->reader = 0;
+  cb->overflow = 0;
+  cb->active = 1;
+}
+
+void cb_clear(cbuffer_t *cb)
+{
+  if (cb->active == 0)  // check if cb active
+  {
+    return;
+  }
+  else 
+    {
+      if (cb == NULL)  // check if cb pointer valid 
+        {
+          return;
+        }
+    
+      cb->writer = 0;
+      cb->reader = 0;
+      cb->overflow = 0;
+      }
+}
 
 /* Private definitions ----------------------------------------------- */
 /* End of file -------------------------------------------------------- */

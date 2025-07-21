@@ -98,5 +98,33 @@ uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
   
   return bytes_written;
 }
+uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes){
+    uint32_t cnt = 0;
+  if(!cb->active)
+  {
+    printf("chua active\n");
+    return 0;
+  }
+  if(nbytes == 0 || nbytes < CB_MAX_SIZE)
+  {
+    printf("du lieu doc qua lon\n");
+    return 0;
+  }
+  
+  uint8_t *bufR = (uint8_t *)buf;
+  while(cnt < nbytes)
+  {
+    if (cb->reader == (cb->writer - 1))
+    {
+        break;
+    } 
+    // gan du lieu cho bufR
+    bufR[cb->reader] = cb->data[cb->reader];   
+    // tang reader va cnt        
+    cb->reader = (cb->reader + 1) % cb->size;     
+    cnt++;
+  }
+return cnt;
+}
 /* Private definitions ----------------------------------------------- */
 /* End of file -------------------------------------------------------- */

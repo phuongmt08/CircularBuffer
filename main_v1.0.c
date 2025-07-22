@@ -37,30 +37,41 @@
 /* Private variables -------------------------------------------------- */
 /* Private function prototypes ---------------------------------------- */
 /* Function definitions ----------------------------------------------- */
+
 void cb_init(cbuffer_t *cb, void *buf, uint32_t size)
 {
-  if (cb == NULL || buf == NULL || size == 0 || size > CB_MAX_SIZE)
-    {
-      return;
-    }
-    
-  cb->data = (uint8_t *)buf;
-  cb->size = size;
-  cb->writer = 0;
-  cb->reader = 0;
-  cb->overflow = 0;
-  cb->active = 1;
+  if (cb == NULL || buf == NULL)  // check if cb pointer valid
+  {
+    printf("Invalid parameters!!!\n");
+    return;
+  }
+
+  else if (size == 0 || size > CB_MAX_SIZE || size <= buf)  // check if size valid
+  {
+    printf("Invalid size!!!\n");
+    return;
+  }
+  
+  else  // if all parameters are valid
+  {
+    cb->data = (uint8_t *)buf;
+    cb->size = size;
+    cb->writer = 0;
+    cb->overflow = 0;
+    cb->active = 1;
+    cb->reader = 0;
+  }
 }
 
 void cb_clear(cbuffer_t *cb)
 {
-  if (cb->active == 0)  // check if cb active
+  if (cb == NULL)  // check if cb pointer valid 
   {
     return;
   }
   else 
   {
-    if (cb == NULL)  // check if cb pointer valid 
+    if (cb->active == 0)  // check if cb active
     {
       return;
     }
@@ -71,16 +82,6 @@ void cb_clear(cbuffer_t *cb)
   }
 }
 
-/**
- * @brief Write “n_byte” number of data from “buf” and store it in cbuffer. The actual written
-bytes will be returned
- *
- * @param cb: Circular Buffer struct
- * @param buf: External Buffer with data
- * @param nbytes: Numbers of data in buf
- *
- * @return uint32_t The number of bytes successfully written to the circular buffer.
- */
 uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
 {
   // Kiểm tra thông số đầu vào hợp lệ

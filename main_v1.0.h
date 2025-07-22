@@ -55,7 +55,34 @@ typedef struct
 /* Public macros ------------------------------------------------------ */
 /* Public variables --------------------------------------------------- */
 /* Public function prototypes ----------------------------------------- */
+
+/**
+ * @brief  cb_init requires input consisting of a circular buffer structure (cbuffer_t), 
+ *         pointer toamemory-allocated buffer (buf), and the size of the circular buffer (size).
+ *         In the initialization process, the circular buffer will be marked as “active”,
+ *         allowing the writeoperation to start at the first position of the buffer (head).
+ *
+ * @param[in]    cb      Circular Buffer Structure pointer
+ * @param[in]    buf     Data Buffer pointer
+ * @param[in]    size    Size of the Circular Buffer
+ *
+ * @attention  All Cbuffer must be initialized before any kind of action involved that certainbuffer.
+ *
+ * @return  
+ *  - Nothing: Success\n
+ * @return 
+ *  - Invalid parameters!!!: cb or buf is NULL
+ * @return 
+ *  - Invalid size!!!: size is 0, greater than CB_MAX_SIZE or less than or equal to buf
+ */
 void cb_init(cbuffer_t *cb, void *buf, uint32_t size);
+/**
+ * @brief  Reset Cbuffer’s reader, writer, and overflow counter, technically,
+ *         ignore and allowoverwrite of all currently valid data in Cbuffer.
+ * @param[in]    cb      Circular Buffer Structure pointer
+ * @return  
+ *  - Nothing: Success
+ */
 void cb_clear(cbuffer_t *cb);
 uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes);
 uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes);

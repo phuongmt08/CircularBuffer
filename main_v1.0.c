@@ -37,19 +37,30 @@
 /* Private variables -------------------------------------------------- */
 /* Private function prototypes ---------------------------------------- */
 /* Function definitions ----------------------------------------------- */
+
 void cb_init(cbuffer_t *cb, void *buf, uint32_t size)
 {
-  if (cb == NULL || buf == NULL || size == 0 || size > CB_MAX_SIZE)
-    {
-      return;
-    }
-    
-  cb->data = (uint8_t *)buf;
-  cb->size = size;
-  cb->writer = 0;
-  cb->reader = 0;
-  cb->overflow = 0;
-  cb->active = 1;
+  if (cb == NULL || buf == NULL)  // check if cb pointer valid
+  {
+    printf("Invalid parameters!!!\n");
+    return;
+  }
+
+  else if (size == 0 || size > CB_MAX_SIZE || size <= buf)  // check if size valid
+  {
+    printf("Invalid size!!!\n");
+    return;
+  }
+  
+  else  // if all parameters are valid
+  {
+    cb->data = (uint8_t *)buf;
+    cb->size = size;
+    cb->writer = 0;
+    cb->overflow = 0;
+    cb->active = 1;
+    cb->reader = 0;
+  }
 }
 
 void cb_clear(cbuffer_t *cb)

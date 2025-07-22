@@ -71,6 +71,16 @@ void cb_clear(cbuffer_t *cb)
   }
 }
 
+/**
+ * @brief Write “n_byte” number of data from “buf” and store it in cbuffer. The actual written
+bytes will be returned
+ *
+ * @param cb: Circular Buffer struct
+ * @param buf: External Buffer with data
+ * @param nbytes: Numbers of data in buf
+ *
+ * @return uint32_t The number of bytes successfully written to the circular buffer.
+ */
 uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
 {
   // Kiểm tra thông số đầu vào hợp lệ
@@ -99,7 +109,8 @@ uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
   return bytes_written;
 }
 
-uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes){
+uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes)
+{
   uint32_t cnt = 0;
 
   if(!cb->active)
@@ -107,6 +118,7 @@ uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes){
     printf("chua active\n");
     return 0;
   }
+
   if(nbytes == 0 || nbytes > CB_MAX_SIZE)
   {
     printf("du lieu doc qua lon\n");
@@ -114,6 +126,7 @@ uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes){
   }
   
   uint8_t *bufR = (uint8_t *)buf;
+
   while(cnt < nbytes)
   {
     if (cb->reader == cb->writer)
@@ -136,7 +149,8 @@ uint32_t cb_data_count(cbuffer_t *cb)
   {
     return cb->writer - cb->reader;
   } 
-  else {
+  else 
+  {
     return cb->size + cb->writer - cb->reader;
   }
 }

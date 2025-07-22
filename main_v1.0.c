@@ -85,8 +85,17 @@ void cb_clear(cbuffer_t *cb)
 uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
 {
   // Kiểm tra thông số đầu vào hợp lệ
-  if (cb == NULL || buf == NULL || nbytes == 0 || cb->active == false)
+  if (nbytes == 0)
+  {
+    printf("Illegal input parameters !!!!\n");
+    return 0;  
+  }
+  else if (cb->active == false)
+  {
+    printf("Buffer is not active!!!\n");
     return 0;
+  }
+  
 
   // Ép kiểu con trỏ buf và khởi tạo biến đếm 
   uint8_t *data = (uint8_t *)buf;
@@ -110,29 +119,30 @@ uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
   return bytes_written;
 }
 
-uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes){
+uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes)
+{
   uint32_t cnt = 0;
 
   if(!cb->active)
   {
-    printf("chua active\n");
+    printf("Buffer is not active\n");
     return 0;
   }
-  if(nbytes == 0 || nbytes > CB_MAX_SIZE)
+
+  if(nbytes == 0 || nbytes > (cb->size))
   {
-    printf("du lieu doc qua lon\n");
+    printf("Requested read size is invalid\n");
     return 0;
   }
   
-  uint8_t *bufR = (uint8_t *)buf;
   while(cnt < nbytes)
   {
-    if (cb->reader == cb->writer)
+    if (cb->reader == (cb->writer - 1))
     {
       break;
     } 
     // gan du lieu cho bufR
-    bufR[cnt] = cb->data[cb->reader];   
+    ((uint8_t *)buf)[cnt] = cb->data[cb->reader];   
     // tang reader va cnt        
     cb->reader = (cb->reader + 1) % cb->size;     
     cnt++;
@@ -147,7 +157,8 @@ uint32_t cb_data_count(cbuffer_t *cb)
   {
     return cb->writer - cb->reader;
   } 
-  else {
+  else 
+  {
     return cb->size + cb->writer - cb->reader;
   }
 }

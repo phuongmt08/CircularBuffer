@@ -16,29 +16,26 @@
  */
 
 /* Includes ----------------------------------------------------------- */
-#include "main_v1.0.c"
+#include "main_v1.0.h"
 
 /* Private defines ---------------------------------------------------- */
-#define TESTCASE_GENERAL 
-// #define TESTCASE_2 
-// #define TESTCASE_1 
+#define TESTCASE_1 
 // #define TESTCASE_2
-//#define TESTCASE_3 
-#define TESTCASE_4
+// #define TESTCASE_3 
+// #define TESTCASE_4
 
 /* Public variables --------------------------------------------------- */
 
 /* --- TEST CASE 1 ---------------------------------------------------- */
-#define TESTCASE_GENERAL
 
-#ifdef TESTCASE_GENERAL
+#ifdef TESTCASE_1
 cbuffer_t cb;
 uint8_t cb_buff[10] = {0};
 uint8_t a;
 
-void run_testcase_general(void)
+void run_testcase_1(void)
 {
-    printf("==== RUNNING TESTCASE GENERAL ====\n");
+    printf("==== RUNNING TESTCASE 1 ====\n");
     printf("Size buffer: %d\n", sizeof(cb_buff));
     cb_init(&cb, cb_buff, sizeof(cb_buff));
     cb_clear(&cb);
@@ -94,7 +91,7 @@ void run_testcase_general(void)
     printf("---------------------------------\n");
 
     // 2. Ghi/Đọc dữ liệu lần 3
-    char a3[] = {30, 31, 32, 33, 34, 35, 36, 37};
+    char a3[] = {30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40};
     cb_write(&cb, a3, sizeof(a3));
     printf("Wrote 8 bytes: {30..37}\n");
 
@@ -224,8 +221,9 @@ void run_testcase_4() {
 /* --- MAIN FUNCTION -------------------------------------------------- */
 int main(void)
 {
-#ifdef TESTCASE_GENERAL
-    run_testcase_general();
+#ifdef TESTCASE_1 
+
+    run_testcase_1();
 #endif
 #ifdef TESTCASE_2
     run_testcase_2();

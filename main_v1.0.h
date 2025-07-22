@@ -66,8 +66,9 @@ typedef struct
  * @param[in]    buf     Data Buffer pointer
  * @param[in]    size    Size of the Circular Buffer
  *
- * @attention  All Cbuffer must be initialized before any kind of action involved that certainbuffer.
- *
+ * @attention  All Cbuffer must be initialized before any kind
+ *             of action involved that certain buffer.
+ * @attention  
  * @return  
  *  - Nothing: Success\n
  * @return 

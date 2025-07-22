@@ -46,7 +46,7 @@ void cb_init(cbuffer_t *cb, void *buf, uint32_t size)
     return;
   }
 
-  else if (size == 0 || size > CB_MAX_SIZE || size <= buf)  // check if size valid
+  else if (size == 0 || size > CB_MAX_SIZE)  // check if size valid
   {
     printf("Invalid size!!!\n");
     return;

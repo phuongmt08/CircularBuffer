@@ -30,6 +30,8 @@
 #include <stdint.h>
 #include "main_v1.0.h"
 /* Private defines ---------------------------------------------------- */
+/* Private enumerate/structure ---------------------------------------- */
+/* Private macros ----------------------------------------------------- */
 #define CHECK_IF_ACTIVE                \
 do                                     \
 {                                      \
@@ -39,9 +41,6 @@ do                                     \
     return 0;                          \
   }                                    \
 } while (0)                            \
-
-/* Private enumerate/structure ---------------------------------------- */
-/* Private macros ----------------------------------------------------- */
 /* Public variables --------------------------------------------------- */
 /* Private variables -------------------------------------------------- */
 /* Private function prototypes ---------------------------------------- */

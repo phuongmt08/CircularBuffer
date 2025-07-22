@@ -22,17 +22,25 @@
  */
 
 /* Includes ----------------------------------------------------------- */
-#include "main_v1.0.h"
 //#include "code_template.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 #include <stdint.h>
-
+#include "main_v1.0.h"
 /* Private defines ---------------------------------------------------- */
 /* Private enumerate/structure ---------------------------------------- */
 /* Private macros ----------------------------------------------------- */
+#define CHECK_IF_ACTIVE                \
+do                                     \
+{                                      \
+  if(!cb->active)                      \
+  {                                    \
+    printf("Buffer is not active\n");  \
+    return 0;                          \
+  }                                    \
+} while (0)                            \
 /* Public variables --------------------------------------------------- */
 /* Private variables -------------------------------------------------- */
 /* Private function prototypes ---------------------------------------- */
@@ -69,32 +77,23 @@ void cb_clear(cbuffer_t *cb)
   {
     return;
   }
-  else 
-  {
-    if (cb->active == 0)  // check if cb active
-    {
-      return;
-    }
 
-    cb->writer = 0;
-    cb->reader = 0;
-    cb->overflow = 0;
-  }
+  CHECK_IF_ACTIVE;
+
+  cb->writer = 0;
+  cb->reader = 0;
+  cb->overflow = 0;
 }
 
 uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
 {
   // Kiểm tra thông số đầu vào hợp lệ
-  if (nbytes == 0)
+  if (nbytes == 0 || buf == NULL)
   {
     printf("Illegal input parameters !!!!\n");
     return 0;  
   }
-  else if (cb->active == false)
-  {
-    printf("Buffer is not active!!!\n");
-    return 0;
-  }
+  else CHECK_IF_ACTIVE;
   
 
   // Ép kiểu con trỏ buf và khởi tạo biến đếm 
@@ -123,11 +122,7 @@ uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes)
 {
   uint32_t cnt = 0;
 
-  if(!cb->active)
-  {
-    printf("Buffer is not active\n");
-    return 0;
-  }
+  CHECK_IF_ACTIVE;
 
   if(nbytes == 0 || nbytes > (cb->size))
   {
@@ -137,7 +132,7 @@ uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes)
   
   while(cnt < nbytes)
   {
-    if (cb->reader == (cb->writer - 1))
+    if (cb->reader == cb->writer )
     {
       break;
     } 

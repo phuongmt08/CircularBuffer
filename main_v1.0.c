@@ -22,14 +22,13 @@
  */
 
 /* Includes ----------------------------------------------------------- */
-#include "main_v1.0.h"
 //#include "code_template.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 #include <stdint.h>
-
+#include "main_v1.0.h"
 /* Private defines ---------------------------------------------------- */
 /* Private enumerate/structure ---------------------------------------- */
 /* Private macros ----------------------------------------------------- */
@@ -46,7 +45,7 @@ void cb_init(cbuffer_t *cb, void *buf, uint32_t size)
     return;
   }
 
-  else if (size == 0 || size > CB_MAX_SIZE || size <= buf)  // check if size valid
+  else if (size == 0 || size > CB_MAX_SIZE)  // check if size valid
   {
     printf("Invalid size!!!\n");
     return;
@@ -85,7 +84,7 @@ void cb_clear(cbuffer_t *cb)
 uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
 {
   // Kiểm tra thông số đầu vào hợp lệ
-  if (nbytes == 0)
+  if (nbytes == 0 || buf == NULL)
   {
     printf("Illegal input parameters !!!!\n");
     return 0;  
@@ -137,7 +136,7 @@ uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes)
   
   while(cnt < nbytes)
   {
-    if (cb->reader == (cb->writer - 1))
+    if (cb->reader == cb->writer )
     {
       break;
     } 

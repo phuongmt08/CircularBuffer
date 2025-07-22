@@ -30,6 +30,16 @@
 #include <stdint.h>
 #include "main_v1.0.h"
 /* Private defines ---------------------------------------------------- */
+#define CHECK_IF_ACTIVE                \
+do                                     \
+{                                      \
+  if(!cb->active)                      \
+  {                                    \
+    printf("Buffer is not active\n");  \
+    return 0;                          \
+  }                                    \
+} while (0)                            \
+
 /* Private enumerate/structure ---------------------------------------- */
 /* Private macros ----------------------------------------------------- */
 /* Public variables --------------------------------------------------- */
@@ -68,17 +78,12 @@ void cb_clear(cbuffer_t *cb)
   {
     return;
   }
-  else 
-  {
-    if (cb->active == 0)  // check if cb active
-    {
-      return;
-    }
 
-    cb->writer = 0;
-    cb->reader = 0;
-    cb->overflow = 0;
-  }
+  CHECK_IF_ACTIVE;
+
+  cb->writer = 0;
+  cb->reader = 0;
+  cb->overflow = 0;
 }
 
 uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
@@ -89,11 +94,7 @@ uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
     printf("Illegal input parameters !!!!\n");
     return 0;  
   }
-  else if (cb->active == false)
-  {
-    printf("Buffer is not active!!!\n");
-    return 0;
-  }
+  else CHECK_IF_ACTIVE;
   
 
   // Ép kiểu con trỏ buf và khởi tạo biến đếm 
@@ -122,11 +123,7 @@ uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes)
 {
   uint32_t cnt = 0;
 
-  if(!cb->active)
-  {
-    printf("Buffer is not active\n");
-    return 0;
-  }
+  CHECK_IF_ACTIVE;
 
   if(nbytes == 0 || nbytes > (cb->size))
   {

@@ -54,13 +54,13 @@ void cb_init(cbuffer_t *cb, void *buf, uint32_t size)
 
 void cb_clear(cbuffer_t *cb)
 {
-  if (cb->active == 0)  // check if cb active
+  if (cb == NULL)  // check if cb pointer valid 
   {
     return;
   }
   else 
   {
-    if (cb == NULL)  // check if cb pointer valid 
+    if (cb->active == 0)  // check if cb active
     {
       return;
     }

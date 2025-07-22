@@ -84,8 +84,17 @@ bytes will be returned
 uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
 {
   // Kiểm tra thông số đầu vào hợp lệ
-  if (cb == NULL || buf == NULL || nbytes == 0 || cb->active == false)
+  if (nbytes == 0)
+  {
+    printf("Illegal input parameters !!!!\n");
+    return 0;  
+  }
+  else if (cb->active == false)
+  {
+    printf("Buffer is not active!!!\n");
     return 0;
+  }
+  
 
   // Ép kiểu con trỏ buf và khởi tạo biến đếm 
   uint8_t *data = (uint8_t *)buf;

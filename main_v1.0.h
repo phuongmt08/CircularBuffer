@@ -57,6 +57,15 @@ typedef struct
 /* Public function prototypes ----------------------------------------- */
 void cb_init(cbuffer_t *cb, void *buf, uint32_t size);
 void cb_clear(cbuffer_t *cb);
+/**
+ * @brief  Read "nbytes" of data from circular buffer into external buffer
+ *
+ * @param cb: Circular Buffer struct
+ * @param buf: External Buffer with data
+ * @param nbytes: Numbers of data in buf
+ *
+ * @return uint32_t The number of bytes successfully read from the circular buffer.
+ */
 uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes);
 uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes);
 uint32_t cb_data_count(cbuffer_t *cb);

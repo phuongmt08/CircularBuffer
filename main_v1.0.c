@@ -124,26 +124,24 @@ uint32_t cb_read(cbuffer_t *cb, void *buf, uint32_t nbytes)
 
   if(!cb->active)
   {
-    printf("chua active\n");
+    printf("Buffer is not active\n");
     return 0;
   }
 
-  if(nbytes == 0 || nbytes > CB_MAX_SIZE)
+  if(nbytes == 0 || nbytes > (cb->size))
   {
-    printf("du lieu doc qua lon\n");
+    printf("Requested read size is invalid\n");
     return 0;
   }
   
-  uint8_t *bufR = (uint8_t *)buf;
-
   while(cnt < nbytes)
   {
-    if (cb->reader == cb->writer)
+    if (cb->reader == (cb->writer - 1))
     {
       break;
     } 
     // gan du lieu cho bufR
-    bufR[cnt] = cb->data[cb->reader];   
+    ((uint8_t *)buf)[cnt] = cb->data[cb->reader];   
     // tang reader va cnt        
     cb->reader = (cb->reader + 1) % cb->size;     
     cnt++;

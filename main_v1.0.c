@@ -71,16 +71,6 @@ void cb_clear(cbuffer_t *cb)
   }
 }
 
-/**
- * @brief Write “n_byte” number of data from “buf” and store it in cbuffer. The actual written
-bytes will be returned
- *
- * @param cb: Circular Buffer struct
- * @param buf: External Buffer with data
- * @param nbytes: Numbers of data in buf
- *
- * @return uint32_t The number of bytes successfully written to the circular buffer.
- */
 uint32_t cb_write(cbuffer_t *cb, void *buf, uint32_t nbytes)
 {
   // Kiểm tra thông số đầu vào hợp lệ
